@@ -1,23 +1,46 @@
-import logo from './logo.svg';
+import React, {useState} from "react";
 import './App.css';
-
+var emojiDictionary ={
+  "😊":"smiling",
+  "😳" :"disbelief",
+  "😔":"sad",
+  "🥡":"takeout box",
+  "❤️":"love",
+  "😑":"annoyance"
+};
+var emojisWeknow=Object.keys(emojiDictionary);
+ 
 function App() {
+  const [meaning,setmeaning]=useState("");
+  function emojiInputHandler(event){
+    var userInput = event.target.value;
+    var meaning = emojiDictionary[userInput];
+    if(meaning===undefined){
+      meaning ="we don't have this in our database";
+    }
+    setmeaning(meaning);
+  }
+  function emojiClickHandler(emoji) {
+    var meaning = emojiDictionary[emoji];
+    setmeaning(meaning);
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>inside outt!</h1>
+      <input onChange={emojiInputHandler}></input>
+      <h2>translation will appear here...</h2>
+      <h2>{meaning}</h2>
+      <h3>emojis we know</h3>
+      {emojisWeknow.map(function (emoji){
+        return(
+          <span onClick={()=>emojiClickHandler(emoji)}
+          style={{fontSize:"2rem",padding:"0.5rem", cursor:"pointer"}}
+          key={emoji}>
+            {emoji}
+          </span>
+        )
+      })}
+        
     </div>
   );
 }
